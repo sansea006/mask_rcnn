@@ -1,0 +1,35 @@
+1. need to get pycocotools
+https://github.com/waleedka/coco
+then go to samples
+cp -r ../../coco/PythonAPI/pycocotools pycocotools
+
+2. download mask_rcnn_coco.h5 and put it under Mask_RCNN dir
+https://github.com/matterport/Mask_RCNN/releases/tag/v2.0
+https://github.com/matterport/Mask_RCNN/releases/download/v2.0/mask_rcnn_coco.h5
+
+2. need to change the following setting in requirements.txt 
+tensorflow>=1.13.1
+keras>=2.1.0
+pip3 install -r requirements.txt
+
+3. need to command to change TF1.0 --> TF2.0 for the whole Mask_rcnn dir
+https://github.com/matterport/Mask_RCNN/issues/1797
+"""
+First I was in the project folder, then I
+cd ..
+Since I don't need another backup, I use the following command, according to the help instruction.
+
+tf_upgrade_v2 --intree Mask_RCNN --inplace --reportfile report.txt
+
+Mask_RCNN is where I clone the whole repo.
+And it works.
+"""
+
+The following is probably not necessary
+5. also changed this for "no display instance" error, but no sure it's the fix 
+https://github.com/matterport/Mask_RCNN/issues/912
+I've solved this problem by modifying utils.py line 866 from
+shift = np.array([0, 0, 1, 1])
+to
+shift = np.array([0, 0, 1., 1.])
+It's simply a data type error which will cause float number becomes zero, leading to divide by zero error
